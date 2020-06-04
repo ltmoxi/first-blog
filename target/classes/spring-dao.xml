@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd   http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--    数据库相关-->
+    <!--    读取db.properties-->
+    <util:properties id="DBConfig" location="classpath:db.properties"/>
+
+    <!--    用来获取properties中的数据,让mybatis能连接上数据库 获取数据的格式为上面properties的id+"."+相应属性名-->
+    <bean id="basicDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="url" value="#{DBConfig.url}"/>
+        <property name="driverClassName" value="#{DBConfig.driver}"/>
+        <property name="username" value="#{DBConfig.username}"/>
+        <property name="password" value="#{DBConfig.password}"/>
+        <property name="maxActive" value="#{DBConfig.maxActive}"/>
+        <property name="initialSize" value="#{DBConfig.initialSize}"/>
+    </bean>
+
+    <!--    SqlSessionFactoryBean-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--        指定数据源(也就是把dataSource的ref值设置为数据源的id号)-->
+        <property name="dataSource" ref="basicDataSource"/>
+        <!--        指定xml映射文件的位置-->
+        <property name="mapperLocations" value="classpath:/mappers/*.xml"/>
+    </bean>
+
+    <!--    MapperScannerConfigurer-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--        指定接口位置的包-->
+        <property name="basePackage" value="com.moses.blog.mapper"/>
+    </bean>
+
+    <!--    开启事务注解驱动-->
+    <tx:annotation-driven/>
+    <!--    事务管理-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="basicDataSource"/>
+    </bean>
+
+</beans>
