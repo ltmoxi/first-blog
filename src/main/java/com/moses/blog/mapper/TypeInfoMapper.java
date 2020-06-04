@@ -14,7 +14,7 @@ public interface TypeInfoMapper {
      *
      * @return 返回文章分类集合
      */
-    public List<TypeInfo> getTypeInfoList();
+    List<TypeInfo> getTypeInfoList();
 
     /**
      * 插入一条新的数据
@@ -33,7 +33,18 @@ public interface TypeInfoMapper {
      */
     void update(@Param("id") Integer id, @Param("sort") Integer sort, @Param("name") String name);
 
+    /**
+     * 批量删除指定id的类型
+     *
+     * @param idArr id数组
+     */
     void delete(@Param("idArr") Integer[] idArr);
 
+    /**
+     * 通过id获取类型的名称
+     *
+     * @param typeId 类型id
+     * @return 类型名称
+     */
     String getNameById(Integer typeId);
 }

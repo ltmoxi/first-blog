@@ -84,7 +84,7 @@
                                         <tr>
                                             <td><input type="checkbox" class="fill listen-1-2" name="id" value="${entity.id}" /> </td>
                                             <td>${status.index+1}</td>
-                                            <td>${entity.typeName}</td>
+                                            <td>${entity.typeId}</td>
                                             <td>${entity.title}</td>
                                             <td>${entity.updateTime}</td>
                                             <td>${entity.viewCount}</td>

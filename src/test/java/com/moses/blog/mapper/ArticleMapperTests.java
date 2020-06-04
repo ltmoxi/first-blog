@@ -25,21 +25,21 @@ public class ArticleMapperTests {
                 4,
                 new Date(),
                 1,
-                "java");
+                1);
         articleMapper.insert(article);
     }
 
     @Test
     public void update() {
-        Article article = new Article(2,
-                "我是标题2",
+        Article article = new Article(1,
+                "我是标题1",
                 "我是正文2",
                 "我是简介2",
                 "ex/simple2.jpg",
                 4,
                 new Date(),
                 1,
-                "java");
+                1);
         articleMapper.update(article);
     }
 
@@ -53,7 +53,7 @@ public class ArticleMapperTests {
 
     @Test
     public void findArticleById() {
-        Article article = articleMapper.findArticleById(3);
+        Article article = articleMapper.findArticleById(1);
         System.err.println(article);
     }
 

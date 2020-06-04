@@ -58,7 +58,7 @@
                             <div class="unit">
                                 <div class="left">
                                     <p class="subtitle">所属分类</p>
-                                    <p>${article.typeName}</p>
+                                    <p>${article.typeId}</p>
                                     <p>${typeInfo.name}</p>
                                     <p>${article.content}</p>
                                 </div>
@@ -66,7 +66,7 @@
                                     <select id="type_id" name="typeId">
                                         <c:forEach items="${typeList}" var="typeInfo" varStatus="status">
                                             <option value="${typeInfo.id}"
-                                                    <c:if test="${article.typeName eq typeInfo.name}">selected</c:if>>${typeInfo.name}
+                                                    <c:if test="${article.typeId == typeInfo.id}">selected</c:if>>${typeInfo.name}
                                             </option>
                                         </c:forEach>
                                     </select>

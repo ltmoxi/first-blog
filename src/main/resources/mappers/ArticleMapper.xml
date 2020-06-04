@@ -13,12 +13,12 @@
         <result column="a_view_count" property="viewCount"/>
         <result column="a_update_time" property="updateTime"/>
         <result column="a_status" property="status"/>
-        <result column="a_type_id" property="typeName"/>
+        <result column="a_type_id" property="typeId"/>
     </resultMap>
 
     <insert id="insert">
-        insert into article(a_title, a_content, a_summary, a_cover, a_view_count, a_update_time, a_status, a_type_name)
-        values (#{title}, #{content}, #{summary}, #{cover}, #{viewCount}, #{updateTime}, #{status}, #{typeName});
+        insert into article(a_title, a_content, a_summary, a_cover, a_view_count, a_update_time, a_status, a_type_id)
+        values (#{title}, #{content}, #{summary}, #{cover}, #{viewCount}, #{updateTime}, #{status}, #{typeId});
     </insert>
 
     <update id="update">
@@ -30,7 +30,7 @@
             a_view_count=#{viewCount},
             a_update_time=#{updateTime},
             a_status=#{status},
-            a_type_name=#{typeName}
+            a_type_id=#{typeId}
         where a_id = #{id};
     </update>
 

@@ -79,7 +79,7 @@
         let html = '<tr> ' +
                     '<td><input type="checkbox" class="fill listen-1-1" name="id" value="${entity.id}"/> </td>' +
                     '<td><input type="text" class="text" name="sort" data-type="正整数" error-msg="必须输入正整数" value="${entity.sort}"/></td>' +
-                    '<td><input type="text" class="text" name="name" data-type="必填" placeholder="请输入分类名称" value="${entity.name}"/></td>' +
+                    '<td><input type="text" class="text" name="name" data-type="必填" placeholder="请输入分类名称" value="${entity.typeId}"/></td>' +
                     '</tr>';
         $("#table tbody").append(html);
         javaex.render();

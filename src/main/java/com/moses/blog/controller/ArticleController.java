@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -36,8 +35,8 @@ public class ArticleController {
     /**
      * 查看所有未被放入回收站的文章
      *
-     * @param map
-     * @return
+     * @param map map
+     * @return 视图
      */
     @RequestMapping("list_normal.action")
     public String listNormal(ModelMap map) {
@@ -48,11 +47,11 @@ public class ArticleController {
     }
 
     /**
-     * 文章编辑
+     * 编辑文章
      *
-     * @param id
-     * @param map
-     * @return
+     * @param id  id
+     * @param map map
+     * @return 视图
      */
     @RequestMapping("edit.action")
     public String edit(@RequestParam(required = false, value = "id") Integer id,
@@ -65,14 +64,12 @@ public class ArticleController {
         //查询所有文章分类
         map.put("typeList", typeInfoService.list());
 
-
         return "admin/article_info/edit";
     }
 
     @RequestMapping("upload.json")
     @ResponseBody
     public JsonResult<String> upload(@RequestParam("file") CommonsMultipartFile file,
-                                     HttpSession session,
                                      HttpServletRequest request) throws IOException {
 
         //用户上传的文件储存到的文件夹的名称
@@ -104,27 +101,27 @@ public class ArticleController {
         //将用户数上传的文件存储到服务器端的文件对象
         file.transferTo(dest);
         System.out.println(request.getServletContext().getRealPath(imgPath));
-        return new JsonResult<String>(2000, "上传成功!", imgPath);
+        return new JsonResult<>(2000, "上传成功!", imgPath);
     }
 
     /**
      * 保存文章
      *
      * @param article 文章数据
-     * @return
+     * @return json格式的数据
      */
     @RequestMapping("save.json")
     @ResponseBody
-    public JsonResult<Void> save(Article article,@RequestParam("typeId")Integer typeId) {
+    public JsonResult<Void> save(Article article, @RequestParam("typeId") Integer typeId) {
 
         if (article.getId() != null) {
             article.setUpdateTime(new Date());
-            articleService.update(article,typeId);
+            articleService.update(article);
         } else {
             article.setUpdateTime(new Date());
             article.setStatus(1);
             article.setViewCount(1);
-            articleService.insert(article,typeId);
+            articleService.insert(article);
         }
         return new JsonResult<>();
     }

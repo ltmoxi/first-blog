@@ -14,7 +14,7 @@ public class Article {
     private Integer viewCount;
     private Date updateTime;
     private Integer status;
-    private String typeName;
+    private Integer typeId;
 
     public Article() {
 
@@ -31,7 +31,7 @@ public class Article {
                 ", viewCount=" + viewCount +
                 ", updateTime=" + updateTime +
                 ", status=" + status +
-                ", typeName='" + typeName + '\'' +
+                ", typeId=" + typeId +
                 '}';
     }
 
@@ -99,15 +99,15 @@ public class Article {
         this.status = status;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public Integer getTypeId() {
+        return typeId;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
-    public Article(Integer id, String title, String content, String summary, String cover, Integer viewCount, Date updateTime, Integer status, String typeName) {
+    public Article(Integer id, String title, String content, String summary, String cover, Integer viewCount, Date updateTime, Integer status, Integer typeId) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -116,6 +116,6 @@ public class Article {
         this.viewCount = viewCount;
         this.updateTime = updateTime;
         this.status = status;
-        this.typeName = typeName;
+        this.typeId = typeId;
     }
 }

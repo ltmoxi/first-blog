@@ -57,6 +57,12 @@ public class TypeInfoService {
         typeInfoMapper.delete(idArr);
     }
 
+    /**
+     * 通过id获取类型的名称
+     *
+     * @param typeId 类型id
+     * @return 类型名称
+     */
     public String getNameById(Integer typeId) {
         return typeInfoMapper.getNameById(typeId);
     }
