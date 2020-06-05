@@ -40,16 +40,17 @@
                             <!-- 文章分类 -->
                             <select id="type_id" class="no-shadow">
                                 <option value="">请选择</option>
-                                <c:forEach items="${typeList}" var="typeInfo" varStatus="status" >
-                                    <option value="${typeInfo.id}" <c:if test="${typeInfo.typeId==typeId}">selected</c:if>>${typeInfo.name}</option>
+                                <c:forEach items="${typeList}" var="typeInfo" varStatus="status">
+                                    <option value="${typeInfo.id}"<c:if test="${typeInfo.id==typeId}">selected</c:if>>${typeInfo.name}</option>
                                 </c:forEach>
                             </select>
                             <!-- 日期范围 -->
                             <input type="text" id="date2" class="date" style="width: 300px;" value="" readonly/>
                             <!-- 标题检索 -->
-                            <input type="text" class="text" id="title" value="${keyWord}" placeholder="检索文章标题" />
+                            <input type="text" class="text" id="title" value="${keyWord}" placeholder="检索文章标题"/>
                             <!-- 点击查询按钮 -->
-                            <button class="button blue" style="margin-top: -3px;" onclick="search()"><span class="icon-search"></span></button>
+                            <button class="button blue" style="margin-top: -3px;" onclick="search()"><span
+                                    class="icon-search"></span></button>
                         </div>
 
                         <!--表格上方的操作元素，添加、删除、搜索等-->
@@ -74,15 +75,16 @@
                             </thead>
                             <tbody>
                             <c:choose>
-                                <c:when test="${fn:length(list)==0}">
+                                <c:when test="${fn:length(pageInfo.list)==0}">
                                     <tr>
                                         <td colspan="7" style="text-align:center;">暂无记录</td>
                                     </tr>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:forEach items="${list}" var="entity" varStatus="status" >
+                                    <c:forEach items="${pageInfo.list}" var="entity" varStatus="status">
                                         <tr>
-                                            <td><input type="checkbox" class="fill listen-1-2" name="id" value="${entity.id}" /> </td>
+                                            <td><input type="checkbox" class="fill listen-1-2" name="id"
+                                                       value="${entity.id}"/> </td>
                                             <td>${status.index+1}</td>
                                             <td>${entity.typeId}</td>
                                             <td>${entity.title}</td>
@@ -90,7 +92,8 @@
                                             <td>${entity.viewCount}</td>
                                             <td>
                                                 <a href="edit.action?id=${entity.id}">
-                                                    <button class="button wathet"><span class="icon-edit"></span> 编辑</button>
+                                                    <button class="button wathet"><span class="icon-edit"></span> 编辑
+                                                    </button>
                                                 </a>
                                             </td>
                                         </tr>
@@ -100,6 +103,31 @@
                             </tbody>
                         </table>
 
+                        <!-- 分页 -->
+                        <div class="page">
+                            <ul id="page" class="pagination"></ul>
+                        </div>
+
+                        <!--块元素-->
+                        <div class="block no-shadow">
+                            <!--banner用来修饰块元素的名称-->
+                            <div class="banner">
+                                <p class="tab fixed">批量操作<span class="hint">Batch Opt</span></p>
+                            </div>
+                            <!--正文内容-->
+                            <div class="main" style="margin-bottom:200px;">
+                                <label zoom="1.2"><input type="radio" class="fill" name="radio" value="move" />批量移动到分类</label>
+                                <select id="type_id2" class="no-shadow">
+                                    <c:forEach items="${typeList}" var="typeInfo" varStatus="status" >
+                                        <option value="${typeInfo.id}">${typeInfo.name}</option>
+                                    </c:forEach>
+                                </select>
+                                <br />
+                                <label zoom="1.2"><input type="radio" class="fill" name="radio" value="recycle" />批量删除</label>
+                                <br />
+                                <button id="submit" class="button green" style="margin-top:20px;"><span class="icon-check"></span> 提交</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,6 +135,138 @@
     </div>
 </div>
 </body>
+<script>
 
+    // 日期选择
+    let startDate = "";
+    let endDate = "";
+    javaex.date({
+        id: "date2",		        // 承载日期组件的id
+        monthNum: 2,	            // 2代表选择范围日期
+        alignment: "right",
+        startDate: "${startDate}",	// 开始日期
+        endDate: "${endDate}",	    // 结束日期
+        // 重新选择日期之后返回一个时间对象
+        callback: function (rtn) {
+            startDate = rtn.startDate;
+            endDate = rtn.endDate;
+        }
+    });
+
+
+    // 页数控制
+    let currentPage = "${pageInfo.pageNum}";
+    let pageCount = "${pageInfo.pages}"
+    javaex.page({
+        id: "page",
+        pageCount: pageCount,	// 总页数
+        currentPage: currentPage,// 默认选中第几页
+        // 返回当前选中的页数
+        callback: function (result) {
+            console.log(result);
+            search(result);
+        }
+    });
+
+    //搜索功能
+    function search(pageNum) {
+        if (pageNum==undefined) {
+            pageNum = 1;
+        }
+
+        let typeId = $("#type_id").val();
+        let keyWord = $("#title").val();
+        window.location.href = "/article_info/list_normal.action" +
+            "?pageNum=" + pageNum
+            + "&typeId="+typeId
+            + "&startDate="+startDate
+            + "&endDate="+endDate
+            + "&keyWord="+keyWord;
+
+    }
+
+    //批量提交按钮点击
+    // 批量提交按钮点击事件
+    $("#submit").click(function() {
+        let idArr = [];
+        $(':checkbox[name="id"]:checked').each(function() {
+            idArr.push($(this).val());
+        });
+
+        // 判断至少选择一条记录
+        if (idArr.length==0) {
+            javaex.optTip({
+                content : "至少选择一条记录",
+                type : "error"
+            });
+            return;
+        }
+
+        // 判断选择的哪一个单选框进行操作
+        var opt = $(':radio[name="radio"]:checked').val();
+        if (opt=="move") {
+            //如果单选框选择的是更换类型
+            // 获取目标分类的id
+            var typeId = $("#type_id2").val();
+
+            $.ajax({
+                url : "move.json",
+                type : "POST",
+                dataType : "json",
+                traditional : "true",
+                data : {
+                    "idArr" : idArr,
+                    "typeId" : typeId
+                },
+                success : function(rtn) {
+                    if (rtn.code===2000) {
+                        javaex.optTip({
+                            content : "已更改其类型"
+                        });
+                        // 建议延迟加载
+                        setTimeout(function() {
+                            // 刷新页面
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        javaex.optTip({
+                            content : rtn.message,
+                            type : "error"
+                        });
+                    }
+                }
+            });
+        } else if (opt=="recycle") {
+            //如果单选框选择的是删除
+            $.ajax({
+                url : "update_status.json",
+                type : "POST",
+                dataType : "json",
+                traditional : "true",
+                data : {
+                    "idArr" : idArr,
+                    "status" : "0"
+                },
+                success : function(rtn) {
+                    if (rtn.code===2000) {
+                        javaex.optTip({
+                            content : "已放入回收站"
+                        });
+                        // 建议延迟加载
+                        setTimeout(function() {
+                            // 刷新页面
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        javaex.optTip({
+                            content : rtn.message,
+                            type : "error"
+                        });
+                    }
+                }
+            });
+        }
+    });
+</script>
 
 </html>

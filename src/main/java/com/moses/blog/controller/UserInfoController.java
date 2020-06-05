@@ -33,9 +33,6 @@ public class UserInfoController extends BaseController {
 
     @RequestMapping("login.action")
     public String login() {
-        logger.debug("debug-------------------");
-        logger.info("info---------------------");
-        logger.error("error-----------------");
         return "admin/login";
     }
 

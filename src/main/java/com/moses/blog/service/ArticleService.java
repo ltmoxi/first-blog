@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Moses
@@ -22,8 +23,8 @@ public class ArticleService {
      *
      * @return 所有文章集合
      */
-    public List<Article> list() {
-        return articleMapper.list();
+    public List<Article> list(Map<String, Object> param) {
+        return articleMapper.list(param);
     }
 
     /**
@@ -52,5 +53,18 @@ public class ArticleService {
      */
     public void update(Article article) {
         articleMapper.update(article);
+    }
+
+    /**
+     * 批量更改文章的类型
+     * @param idArr 文章id数组
+     * @param typeId 类型id
+     */
+    public void updateTypeId(Integer[] idArr, Integer typeId) {
+        articleMapper.updateTypeId(idArr, typeId);
+    }
+
+    public void updateStatus(Integer[] idArr, Integer status) {
+        articleMapper.updateStatus(idArr, status);
     }
 }

@@ -16,6 +16,8 @@ public class Article {
     private Integer status;
     private Integer typeId;
 
+    private String name;
+
     public Article() {
 
     }
@@ -32,6 +34,7 @@ public class Article {
                 ", updateTime=" + updateTime +
                 ", status=" + status +
                 ", typeId=" + typeId +
+                ", name='" + name + '\'' +
                 '}';
     }
 
@@ -107,7 +110,15 @@ public class Article {
         this.typeId = typeId;
     }
 
-    public Article(Integer id, String title, String content, String summary, String cover, Integer viewCount, Date updateTime, Integer status, Integer typeId) {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Article(Integer id, String title, String content, String summary, String cover, Integer viewCount, Date updateTime, Integer status, Integer typeId, String name) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -117,5 +128,6 @@ public class Article {
         this.updateTime = updateTime;
         this.status = status;
         this.typeId = typeId;
+        this.name = name;
     }
 }

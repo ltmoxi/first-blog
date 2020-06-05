@@ -1,12 +1,16 @@
 package com.moses.blog.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.moses.blog.service.ArticleService;
 import com.moses.blog.service.TypeInfoService;
 import com.moses.blog.view.Article;
 import com.moses.blog.view.JsonResult;
+import com.moses.blog.view.TypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,7 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Moses
@@ -39,10 +45,40 @@ public class ArticleController {
      * @return 视图
      */
     @RequestMapping("list_normal.action")
-    public String listNormal(ModelMap map) {
-        List<Article> list = articleService.list();
-        System.err.println(list.size());
-        map.put("list", list);
+    public String listNormal(ModelMap map,
+                             @RequestParam(required = false, value = "typeId") Integer typeId,
+                             @RequestParam(required = false, value = "startDate") String startDate,
+                             @RequestParam(required = false, value = "endDate") String endDate,
+                             @RequestParam(required = false, value = "keyWord") String keyWord,
+                             @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                             @RequestParam(value = "pageSize", defaultValue = "3") int pageSize) {
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("typeId", typeId);
+        param.put("startDate", startDate);
+        param.put("endDate", endDate);
+        if (!StringUtils.isEmpty(keyWord)) {
+            param.put("keyWord", "%" + keyWord.trim() + "%");
+        }
+        param.put("status", "1");
+
+
+        //pageHelper分页插件
+        //只要在查询之前调用,传入当前页码,以及每一页显示多少条
+        PageHelper.startPage(pageNum, pageSize);
+        List<Article> list = articleService.list(param);
+        PageInfo<Article> pageInfo = new PageInfo<>(list);
+
+        List<TypeInfo> typeInfoList = typeInfoService.list();
+
+
+        map.put("typeId", typeId);
+        map.put("startDate", startDate);
+        map.put("endDate", endDate);
+        map.put("keyWord", keyWord);
+
+        map.put("typeList", typeInfoList);
+        map.put("pageInfo", pageInfo);
         return "admin/article_info/list_normal";
     }
 
@@ -64,6 +100,7 @@ public class ArticleController {
         //查询所有文章分类
         map.put("typeList", typeInfoService.list());
         map.put("id", id);
+
 
         return "admin/article_info/edit";
     }
@@ -124,6 +161,39 @@ public class ArticleController {
             article.setViewCount(1);
             articleService.insert(article);
         }
+        return new JsonResult<>();
+    }
+
+
+    /**
+     * 批量更改文章的类型
+     *
+     * @param idArr 文章id数组
+     * @param typeId 类型id
+     * @return json返回值
+     */
+    @RequestMapping("move.json")
+    @ResponseBody
+    public JsonResult<Void> move(@RequestParam("idArr") Integer[] idArr,
+                                 @RequestParam("typeId") Integer typeId) {
+        articleService.updateTypeId(idArr, typeId);
+
+        return new JsonResult<>();
+    }
+
+    /**
+     * 批量更新文章状态
+     *
+     * @param idArr  文章id数组
+     * @param status 状态的值
+     * @return json返回值
+     */
+    @RequestMapping("update_status.json")
+    @ResponseBody
+    public JsonResult<Void> delete(@RequestParam("idArr") Integer[] idArr, @RequestParam("status") Integer status) {
+
+        articleService.updateStatus(idArr, status);
+
         return new JsonResult<>();
     }
 }
