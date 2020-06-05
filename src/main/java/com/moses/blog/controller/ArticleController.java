@@ -63,6 +63,7 @@ public class ArticleController {
         }
         //查询所有文章分类
         map.put("typeList", typeInfoService.list());
+        map.put("id", id);
 
         return "admin/article_info/edit";
     }
@@ -112,7 +113,7 @@ public class ArticleController {
      */
     @RequestMapping("save.json")
     @ResponseBody
-    public JsonResult<Void> save(Article article, @RequestParam("typeId") Integer typeId) {
+    public JsonResult<Void> save(Article article) {
 
         if (article.getId() != null) {
             article.setUpdateTime(new Date());

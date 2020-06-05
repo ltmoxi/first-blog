@@ -58,9 +58,6 @@
                             <div class="unit">
                                 <div class="left">
                                     <p class="subtitle">所属分类</p>
-                                    <p>${article.typeId}</p>
-                                    <p>${typeInfo.name}</p>
-                                    <p>${article.content}</p>
                                 </div>
                                 <div class="right">
                                     <select id="type_id" name="typeId">
@@ -101,7 +98,7 @@
                                         <input type="file" class="hide" id="upload"
                                                accept="image/gif, image/jpeg, image/jpg, image/png"/>
                                     </a>
-                                    <input type="hidden" id="cover" name="cover" value=""/>
+                                    <input type="hidden" id="cover" name="cover" value="${article.cover}"/>
                                 </div>
                                 <!--清浮动-->
                                 <span class="clearfix"></span>

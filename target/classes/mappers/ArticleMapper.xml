@@ -23,14 +23,16 @@
 
     <update id="update">
         update article
-        set a_title=#{title},
-            a_content=#{content},
-            a_summary=#{summary},
-            a_cover=#{cover},
-            a_view_count=#{viewCount},
-            a_update_time=#{updateTime},
-            a_status=#{status},
-            a_type_id=#{typeId}
+        <set>
+            <if test="title!=null">a_title=#{title},</if>
+            <if test="content!=null">a_content=#{content},</if>
+            <if test="summary!=null">a_summary=#{summary},</if>
+            <if test="cover!=null">a_cover=#{cover},</if>
+            <if test="viewCount!=null">a_view_count=#{viewCount},</if>
+            <if test="updateTime!=null">a_update_time=#{updateTime},</if>
+            <if test="status!=null">a_status=#{status},</if>
+            <if test="typeId!=null">a_type_id=#{typeId}</if>
+        </set>
         where a_id = #{id};
     </update>
 
