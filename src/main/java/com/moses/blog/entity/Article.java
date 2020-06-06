@@ -3,6 +3,8 @@ package com.moses.blog.entity;
 import java.util.Date;
 
 /**
+ * 文章实体类
+ *
  * @author Moses
  */
 public class Article {

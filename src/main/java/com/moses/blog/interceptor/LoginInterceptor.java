@@ -16,26 +16,19 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 1 获取请求的地址
+        // 获取请求的地址
         String url = request.getRequestURI();
-        // 2 对特殊地址，直接放行
-        System.out.println("请求的链接是" + url);
 
-        // 3 判断session，session存在的话，登录后台
+        // 判断session，session存在的话，登录后台
         HttpSession session = request.getSession();
         Object obj = session.getAttribute("id");
-        if (obj!=null) {
+        if (obj != null) {
             // 身份存在，放行
-            System.out.println("请求的链接是" + url);
-            System.out.println("已放行");
             return true;
         }
 
-        // 4 执行这里表示用户身份需要验证，跳转到登录界面
-        System.out.println("请求的链接是" + url);
-        System.out.println("请登录");
+        // 执行这里表示用户身份需要验证，跳转到登录界面
         request.getRequestDispatcher("/WEB-INF/page/admin/login.jsp").forward(request, response);
-
         return false;
 
     }

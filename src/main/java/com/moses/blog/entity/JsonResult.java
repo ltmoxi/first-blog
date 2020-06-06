@@ -1,6 +1,8 @@
 package com.moses.blog.entity;
 
 /**
+ * Json格式的信息承载类
+ *
  * @author Moses
  */
 public class JsonResult<T> {

@@ -176,7 +176,7 @@
 
         let typeId = $("#type_id").val();
         let keyWord = $("#title").val();
-        window.location.href = "/article_info/list_normal.action" +
+        window.location.href = "/admin/article_info/list_normal.action" +
             "?pageNum=" + pageNum
             + "&typeId="+typeId
             + "&startDate="+startDate

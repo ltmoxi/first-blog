@@ -1,6 +1,8 @@
 package com.moses.blog.entity;
 
 /**
+ * 管理员数据
+ *
  * @author Moses
  */
 public class UserInfo {

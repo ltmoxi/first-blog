@@ -25,7 +25,7 @@
 	<li>
 		<p class="pull-left margin-left-10">欢迎您，<span>管理员</span></p>
 		<label class="margin-left-10 margin-right-10">|</label>
-		<a href="${pageContext.request.contextPath}/admin/login_out.action">退出</a>
+		<a href="${pageContext.request.contextPath}/admin/user_info/login_out.action">退出</a>
 	</li>
 	<li>
 		<a href="${pageContext.request.contextPath}/">首页</a>

@@ -165,7 +165,7 @@
 
         let typeId = $("#type_id").val();
         let keyWord = $("#title").val();
-        window.location.href = "/article_info/list_recycle.action" +
+        window.location.href = "/admin/article_info/list_recycle.action" +
             "?pageNum=" + pageNum
             + "&typeId="+typeId
             + "&startDate="+startDate

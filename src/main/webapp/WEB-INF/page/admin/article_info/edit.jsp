@@ -160,8 +160,8 @@
             // 后台返回的数据
             if (rtn.code === 2000) {
                 var imgUrl = rtn.data;
-                $("#container img").attr("src", "../" + imgUrl);
-                $("#cover").val("../" + imgUrl);
+                $("#container img").attr("src", "../../" + imgUrl);
+                $("#cover").val("../../" + imgUrl);
             } else {
                 javaex.optTip({
                     content: "error",
@@ -204,7 +204,7 @@
                     // 建议延迟加载
                     setTimeout(function () {
                         // 跳转页面
-                        window.location.href = "${pageContext.request.contextPath}/article_info/list_normal.action";
+                        window.location.href = "${pageContext.request.contextPath}/admin/article_info/list_normal.action";
                     }, 2000);
                 } else {
                     javaex.optTip({

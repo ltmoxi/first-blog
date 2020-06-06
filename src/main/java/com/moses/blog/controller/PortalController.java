@@ -2,11 +2,11 @@ package com.moses.blog.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.moses.blog.service.ArticleService;
-import com.moses.blog.service.TypeInfoService;
 import com.moses.blog.entity.Article;
 import com.moses.blog.entity.JsonResult;
 import com.moses.blog.entity.TypeInfo;
+import com.moses.blog.service.ArticleService;
+import com.moses.blog.service.TypeInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 负责处理游客信息访问
+ *
  * @author Moses
  */
 @Controller
@@ -59,7 +61,7 @@ public class PortalController extends BaseController {
         //查询所有文章的分类
         List<TypeInfo> typeInfoList = typeInfoService.list();
         map.put("typeList", typeInfoList);
-        return "portal/index";
+        return "index";
     }
 
     @RequestMapping("get_type.json")
@@ -71,15 +73,21 @@ public class PortalController extends BaseController {
         return new JsonResult<>(2000, "获取成功", typeInfoList);
     }
 
+
     /**
-     * 根据文章分类id查询所有文章（正常）
-     * @return
+     * 返回未被回收的所有文章
+     *
+     * @param map      map
+     * @param typeId   类型id
+     * @param pageNum  分页插件的参数,第几页
+     * @param pageSize 分页插件的参数,一页有几个数据
+     * @return view
      */
     @RequestMapping("type.action")
     public String type(ModelMap map,
-                       @RequestParam(value="typeId") String typeId,
-                       @RequestParam(value="pageNum", defaultValue="1") int pageNum,
-                       @RequestParam(value="pageSize", defaultValue="10") int pageSize) {
+                       @RequestParam(value = "typeId") String typeId,
+                       @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                       @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
         Map<String, Object> param = new HashMap<>();
         param.put("typeId", typeId);
@@ -89,54 +97,60 @@ public class PortalController extends BaseController {
         // 只需要在查询之前调用，传入当前页码，以及每一页显示多少条
         PageHelper.startPage(pageNum, pageSize);
         List<Article> list = articleService.list(param);
-        if (list.size()==0) {
-            return "portal/error/404";
+        if (list.size() == 0) {
+            return "error/404";
         }
         PageInfo<Article> pageInfo = new PageInfo<>(list);
         map.put("pageInfo", pageInfo);
 
         map.put("typeInfo", typeInfoService.findPageInfoById(typeId));
 
-        return "portal/type";
+        return "type";
     }
 
+
     /**
-     * 根据主键查询文章
-     * @return
+     * 根据文章id查询单个文章的数据
+     *
+     * @param map ModelMap
+     * @param id 文章数据
+     * @return view
      */
     @RequestMapping("article.action")
     public String article(ModelMap map,
-                          @RequestParam(value="id") Integer id) {
+                          @RequestParam(value = "id") Integer id) {
 
         Article articleInfo = articleService.findArticleById(id);
-        if (articleInfo==null) {
-            return "portal/error/404";
+        if (articleInfo == null) {
+            return "error/404";
         }
         map.put("article", articleInfo);
 
-        return "portal/article";
+        return "article";
     }
 
     /**
      * 关于我页面
-     * @return
+     *
+     * @param map ModelMap
+     * @return view
      */
     @RequestMapping("about.action")
     public String about(ModelMap map) {
 
-        return "portal/about";
+        return "about";
     }
 
 
     /**
      * 搜索文章
-     * @return
+     *
      */
     @RequestMapping("search.action")
     public String search(ModelMap map,
-                         @RequestParam(value="keyWord") String keyWord,
-                         @RequestParam(value="pageNum", defaultValue="1") int pageNum,
-                         @RequestParam(value="pageSize", defaultValue="10") int pageSize) {
+                         @RequestParam(value = "keyWord") String keyWord,
+                         @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
         Map<String, Object> param = new HashMap<>();
         if (!StringUtils.isEmpty(keyWord)) {
@@ -152,7 +166,7 @@ public class PortalController extends BaseController {
         map.put("pageInfo", pageInfo);
 
         map.put("keyWord", keyWord);
-        return "portal/search";
+        return "search";
     }
 
 }
