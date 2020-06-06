@@ -4,7 +4,7 @@
 <mapper namespace="com.moses.blog.mapper.TypeInfoMapper">
 
     <!--    建立sql查询结果字段与实体属性的映射关系-->
-    <resultMap id="TypeInfoMap" type="com.moses.blog.view.TypeInfo">
+    <resultMap id="TypeInfoMap" type="com.moses.blog.entity.TypeInfo">
         <result column="t_id" property="id"/>
         <result column="t_name" property="name"/>
         <result column="t_sort" property="sort"/>
@@ -50,6 +50,12 @@
         select t_name
         from type_info
         where t_id = #{typeId};
+    </select>
+
+    <select id="findPageInfoById" resultType="com.moses.blog.entity.TypeInfo">
+        select *
+        from type_info
+        where t_id = #{typeId}
     </select>
 
 

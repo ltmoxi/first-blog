@@ -1,6 +1,6 @@
 package com.moses.blog.mapper;
 
-import com.moses.blog.view.UserInfo;
+import com.moses.blog.entity.UserInfo;
 
 /**
  * @author Moses

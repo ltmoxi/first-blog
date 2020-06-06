@@ -221,7 +221,7 @@
                 success : function(rtn) {
                     if (rtn.code===2000) {
                         javaex.optTip({
-                            content : rtn.message
+                            content : "已更改其类型"
                         });
                         // 建议延迟加载
                         setTimeout(function() {
@@ -250,7 +250,7 @@
                 success : function(rtn) {
                     if (rtn.code===2000) {
                         javaex.optTip({
-                            content : ""
+                            content : "已放入回收站"
                         });
                         // 建议延迟加载
                         setTimeout(function() {

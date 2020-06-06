@@ -3,7 +3,7 @@ package com.moses.blog.service;
 import com.moses.blog.exception.PasswordNotMatchException;
 import com.moses.blog.exception.UserNotFoundException;
 import com.moses.blog.mapper.UserInfoMapper;
-import com.moses.blog.view.UserInfo;
+import com.moses.blog.entity.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

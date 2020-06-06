@@ -1,6 +1,6 @@
 package com.moses.blog.mapper;
 
-import com.moses.blog.view.Article;
+import com.moses.blog.entity.Article;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,6 @@
 package com.moses.blog.mapper;
 
-import com.moses.blog.view.TypeInfo;
+import com.moses.blog.entity.TypeInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -47,4 +47,11 @@ public interface TypeInfoMapper {
      * @return 类型名称
      */
     String getNameById(Integer typeId);
+
+    /**
+     * 通过id获取类型的信息
+     * @param typeId 类型id
+     * @return 类型信息
+     */
+    TypeInfo findPageInfoById(String typeId);
 }

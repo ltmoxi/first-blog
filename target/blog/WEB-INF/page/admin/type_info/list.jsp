@@ -150,6 +150,9 @@
             }
 
         })
+
+        console.log(idArr);
+
         //判断所勾选的是不是新增的空白记录
         if (idArr.length == 0) {
             //前台无刷新去除新的tr
@@ -177,7 +180,7 @@
                         }, 2000);
                     } else {
                         javaex.optTip({
-                            content : "删除失败!",
+                            content : rtn.message,
                             type : "error"
                         });
                     }

@@ -1,7 +1,9 @@
 package com.moses.blog.service;
 
+import com.moses.blog.exception.ServiceException;
+import com.moses.blog.mapper.ArticleMapper;
 import com.moses.blog.mapper.TypeInfoMapper;
-import com.moses.blog.view.TypeInfo;
+import com.moses.blog.entity.TypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,6 +18,9 @@ public class TypeInfoService {
 
     @Autowired
     private TypeInfoMapper typeInfoMapper;
+
+    @Autowired
+    private ArticleMapper articleMapper;
 
 
     /**
@@ -54,6 +59,13 @@ public class TypeInfoService {
      * @param idArr 主键数组
      */
     public void delete(Integer[] idArr) {
+        //先统计一下该分类中该分类id数组所对应的分类中有没有文章
+        int count = articleMapper.countByTypeIdArr(idArr, 1);
+        if (count > 0) {
+            //如果有,禁止删除
+            throw new ServiceException("存在已经被使用的分类,无法删除!");
+        }
+        articleMapper.batchDeleteByTypeIdArr(idArr);
         typeInfoMapper.delete(idArr);
     }
 
@@ -65,5 +77,15 @@ public class TypeInfoService {
      */
     public String getNameById(Integer typeId) {
         return typeInfoMapper.getNameById(typeId);
+    }
+
+    /**
+     * 根据id获取类型信息
+     *
+     * @param typeId id
+     * @return 类型信息
+     */
+    public TypeInfo findPageInfoById(String typeId) {
+        return typeInfoMapper.findPageInfoById(typeId);
     }
 }

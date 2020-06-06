@@ -4,9 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.moses.blog.service.ArticleService;
 import com.moses.blog.service.TypeInfoService;
-import com.moses.blog.view.Article;
-import com.moses.blog.view.JsonResult;
-import com.moses.blog.view.TypeInfo;
+import com.moses.blog.entity.Article;
+import com.moses.blog.entity.JsonResult;
+import com.moses.blog.entity.TypeInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,7 +31,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("article_info")
-public class ArticleController {
+public class ArticleController extends BaseController {
 
     @Autowired
     private ArticleService articleService;
@@ -83,6 +84,50 @@ public class ArticleController {
     }
 
     /**
+     * 查看所有被放入回收站的文章
+     *
+     * @param map map
+     * @return 视图
+     */
+    @RequestMapping("list_recycle.action")
+    public String listRecycle(ModelMap map,
+                              @RequestParam(required = false, value = "typeId") Integer typeId,
+                              @RequestParam(required = false, value = "startDate") String startDate,
+                              @RequestParam(required = false, value = "endDate") String endDate,
+                              @RequestParam(required = false, value = "keyWord") String keyWord,
+                              @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                              @RequestParam(value = "pageSize", defaultValue = "3") int pageSize) {
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("typeId", typeId);
+        param.put("startDate", startDate);
+        param.put("endDate", endDate);
+        if (!StringUtils.isEmpty(keyWord)) {
+            param.put("keyWord", "%" + keyWord.trim() + "%");
+        }
+        param.put("status", "0");
+
+
+        //pageHelper分页插件
+        //只要在查询之前调用,传入当前页码,以及每一页显示多少条
+        PageHelper.startPage(pageNum, pageSize);
+        List<Article> list = articleService.list(param);
+        PageInfo<Article> pageInfo = new PageInfo<>(list);
+
+        List<TypeInfo> typeInfoList = typeInfoService.list();
+
+
+        map.put("typeId", typeId);
+        map.put("startDate", startDate);
+        map.put("endDate", endDate);
+        map.put("keyWord", keyWord);
+
+        map.put("typeList", typeInfoList);
+        map.put("pageInfo", pageInfo);
+        return "admin/article_info/list_recycle";
+    }
+
+    /**
      * 编辑文章
      *
      * @param id  id
@@ -93,14 +138,17 @@ public class ArticleController {
     public String edit(@RequestParam(required = false, value = "id") Integer id,
                        ModelMap map) {
         //查询单个文章的信息
-        if (id != null) {
+        if (id != null && id > 0) {
             Article article = articleService.findArticleById(id);
             map.put("article", article);
+            map.put("id", id);
+        } else {
+            //todo 这个-1之后一定要记得改,因为edit.jsp页面41行如果获取到的是null值,则会默认为1,暂时先不管,以后寻找其他解决方式
+            map.put("id", -1);
         }
+
         //查询所有文章分类
         map.put("typeList", typeInfoService.list());
-        map.put("id", id);
-
 
         return "admin/article_info/edit";
     }
@@ -152,7 +200,8 @@ public class ArticleController {
     @ResponseBody
     public JsonResult<Void> save(Article article) {
 
-        if (article.getId() != null) {
+        //todo 这个-1之后一定要记得改,因为edit.jsp页面41行如果获取到的是null值,则会默认为1,暂时先不管,以后寻找其他解决方式
+        if (article.getId() != null && article.getId() != -1) {
             article.setUpdateTime(new Date());
             articleService.update(article);
         } else {
@@ -168,7 +217,7 @@ public class ArticleController {
     /**
      * 批量更改文章的类型
      *
-     * @param idArr 文章id数组
+     * @param idArr  文章id数组
      * @param typeId 类型id
      * @return json返回值
      */
@@ -190,9 +239,25 @@ public class ArticleController {
      */
     @RequestMapping("update_status.json")
     @ResponseBody
-    public JsonResult<Void> delete(@RequestParam("idArr") Integer[] idArr, @RequestParam("status") Integer status) {
+    public JsonResult<Void> updateStatus(@RequestParam("idArr") Integer[] idArr, @RequestParam("status") Integer status) {
 
         articleService.updateStatus(idArr, status);
+
+        return new JsonResult<>();
+    }
+
+
+    /**
+     * 批量删除文章
+     *
+     * @param idArr 文章id数组
+     * @return 返回json数据
+     */
+    @RequestMapping("delete.json")
+    @ResponseBody
+    public JsonResult<Void> delete(@Param("idArr") Integer[] idArr) {
+
+        articleService.delete(idArr);
 
         return new JsonResult<>();
     }

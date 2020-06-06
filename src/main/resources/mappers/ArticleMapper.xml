@@ -4,7 +4,7 @@
 <mapper namespace="com.moses.blog.mapper.ArticleMapper">
 
     <!--    建立sql查询结果字段与实体属性的映射关系-->
-    <resultMap id="ArticleInfoMap" type="com.moses.blog.view.Article">
+    <resultMap id="ArticleInfoMap" type="com.moses.blog.entity.Article">
         <result column="a_id" property="id"/>
         <result column="a_title" property="title"/>
         <result column="a_content" property="content"/>
@@ -76,6 +76,24 @@
         </foreach>
     </update>
 
+    <delete id="delete">
+        delete
+        from article
+        where a_id in
+        <foreach collection="idArr" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="batchDeleteByTypeIdArr">
+        delete
+        from article
+        where a_id in
+        <foreach collection="typeIdArr" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
     <select id="list" resultMap="ArticleInfoMap">
         SELECT
         ai.a_id,
@@ -105,6 +123,7 @@
                ti.t_name,
                ai.a_title,
                ai.a_cover,
+               ai.a_content,
                ai.a_summary,
                ai.a_update_time,
                ai.a_view_count
@@ -113,6 +132,15 @@
         WHERE ai.a_type_id = ti.t_id
           AND ai.a_status = 1
           AND ai.a_id = #{id}
+    </select>
+
+    <select id="countByTypeIdArr" resultType="java.lang.Integer">
+        select count(*)
+        from article
+        where a_status = #{status} and a_type_id in
+        <foreach collection="typeIdArr" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 

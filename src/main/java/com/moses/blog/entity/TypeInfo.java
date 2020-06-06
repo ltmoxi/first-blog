@@ -1,4 +1,4 @@
-package com.moses.blog.view;
+package com.moses.blog.entity;
 
 /**
  * 文章分类

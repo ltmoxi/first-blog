@@ -4,7 +4,7 @@
 <mapper namespace="com.moses.blog.mapper.UserInfoMapper">
 
     <!--    建立sql查询结果字段与实体属性的映射关系-->
-    <resultMap id="UserInfoMap" type="com.moses.blog.view.UserInfo">
+    <resultMap id="UserInfoMap" type="com.moses.blog.entity.UserInfo">
         <result column="u_id" property="id"/>
         <result column="u_username" property="username"/>
         <result column="u_password" property="password"/>

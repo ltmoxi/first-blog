@@ -1,7 +1,7 @@
 package com.moses.blog.service;
 
 import com.moses.blog.mapper.ArticleMapper;
-import com.moses.blog.view.Article;
+import com.moses.blog.entity.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,5 +66,9 @@ public class ArticleService {
 
     public void updateStatus(Integer[] idArr, Integer status) {
         articleMapper.updateStatus(idArr, status);
+    }
+
+    public void delete(Integer[] idArr) {
+        articleMapper.delete(idArr);
     }
 }

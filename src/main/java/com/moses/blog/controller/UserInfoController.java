@@ -1,8 +1,8 @@
 package com.moses.blog.controller;
 
 import com.moses.blog.service.UserInfoService;
-import com.moses.blog.view.JsonResult;
-import com.moses.blog.view.UserInfo;
+import com.moses.blog.entity.JsonResult;
+import com.moses.blog.entity.UserInfo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

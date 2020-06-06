@@ -1,8 +1,8 @@
 package com.moses.blog.controller;
 
 import com.moses.blog.service.TypeInfoService;
-import com.moses.blog.view.JsonResult;
-import com.moses.blog.view.TypeInfo;
+import com.moses.blog.entity.JsonResult;
+import com.moses.blog.entity.TypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,7 +24,6 @@ public class TypeController extends BaseController {
 
     /**
      * 查询所有文章分类
-     *
      */
     @RequestMapping("list.action")
     public String list(ModelMap map) {
@@ -45,6 +44,12 @@ public class TypeController extends BaseController {
         return new JsonResult<>();
     }
 
+    /**
+     * 批量删除文章分类
+     *
+     * @param idArr 文章分类id数组
+     * @return json数据
+     */
     @RequestMapping("delete.json")
     @ResponseBody
     public JsonResult<Void> delete(@RequestParam("idArr") Integer[] idArr) {

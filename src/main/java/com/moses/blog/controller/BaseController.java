@@ -3,7 +3,7 @@ package com.moses.blog.controller;
 import com.moses.blog.exception.PasswordNotMatchException;
 import com.moses.blog.exception.ServiceException;
 import com.moses.blog.exception.UserNotFoundException;
-import com.moses.blog.view.JsonResult;
+import com.moses.blog.entity.JsonResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,6 +21,8 @@ public class BaseController {
             return new JsonResult<>(300, e);
         } else if (e instanceof PasswordNotMatchException) {
             return new JsonResult<>(500, e);
+        }else if (e instanceof ServiceException) {
+            return new JsonResult<>(600, e);
         }
         return null;
     }
