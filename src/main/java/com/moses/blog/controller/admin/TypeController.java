@@ -32,7 +32,6 @@ public class TypeController extends BaseController {
     public String list(ModelMap map) {
         List<TypeInfo> list = typeInfoService.list();
         map.put("list", list);
-        System.out.println(list);
         return "admin/type_info/list_type";
     }
 
@@ -49,7 +48,12 @@ public class TypeController extends BaseController {
     public JsonResult<Void> saveListHandler(@RequestParam("idArr") String[] idArr,
                                             @RequestParam("sortArr") String[] sortArr,
                                             @RequestParam("nameArr") String[] nameArr) {
+
+        //idArr   类型id数组
+        //sortArr 类型排序数组
+        //nameArr 类型名称数组
         typeInfoService.save(idArr, sortArr, nameArr);
+
         return new JsonResult<>();
     }
 

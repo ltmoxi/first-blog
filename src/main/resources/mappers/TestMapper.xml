@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moses.blog.mapper.TestMapper">
+
+
+    <select id="getIdByName" resultType="java.lang.Integer">
+        select u_id
+        from user_info
+        where u_username = #{username}
+    </select>
+</mapper>
+
+

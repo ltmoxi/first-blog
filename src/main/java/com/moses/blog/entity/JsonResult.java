@@ -6,8 +6,17 @@ package com.moses.blog.entity;
  * @author Moses
  */
 public class JsonResult<T> {
+    /**
+     * 状态码
+     */
     private Integer code = 2000;
+    /**
+     * 返回的信息,如插入成功,删除失败之类的
+     */
     private String message;
+    /**
+     * 数据
+     */
     private T data;
 
     public JsonResult() {

@@ -129,18 +129,6 @@ public class PortalController extends BaseController {
         return "article";
     }
 
-    /**
-     * 关于我页面
-     *
-     * @param map ModelMap
-     * @return view
-     */
-    @RequestMapping("about.action")
-    public String about(ModelMap map) {
-
-        return "about";
-    }
-
 
     /**
      * 搜索文章

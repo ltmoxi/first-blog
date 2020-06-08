@@ -10,11 +10,24 @@
         <result column="u_password" property="password"/>
     </resultMap>
 
+    <insert id="insert">
+        insert into user_info(u_username, u_password)
+        values (#{username}, #{password});
+    </insert>
+
     <select id="findUserByUsername" resultMap="UserInfoMap">
         select *
         from user_info
         where u_username = #{username};
     </select>
+
+    <select id="checkUsername" resultType="java.lang.Integer">
+        select count(*)
+        from user_info
+        where u_username = #{username};
+    </select>
+
+
 </mapper>
 
 

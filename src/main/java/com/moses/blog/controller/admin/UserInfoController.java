@@ -77,4 +77,11 @@ public class UserInfoController extends BaseController {
         return new JsonResult<>();
     }
 
+    @ResponseBody
+    @RequestMapping("user_info/reg.json")
+    public JsonResult<Void> regHandler(@RequestParam(required = false,value="username") String username,
+                                       @RequestParam("password") String password) {
+         userInfoService.reg(username, password);
+        return new JsonResult<>();
+    }
 }

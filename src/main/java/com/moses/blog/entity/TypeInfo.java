@@ -6,7 +6,7 @@ package com.moses.blog.entity;
  */
 public class TypeInfo {
     /**
-     * 主键
+     * 主键 分类的唯一标识
      */
     private Integer id;
     /**

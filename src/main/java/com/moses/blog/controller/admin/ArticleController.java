@@ -55,22 +55,29 @@ public class ArticleController extends BaseController {
                              @RequestParam(required = false, value = "keyWord") String keyWord,
                              @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                              @RequestParam(value = "pageSize", defaultValue = "3") int pageSize) {
-
         //把所有条件都放在一个map里,以便查询
+
         Map<String, Object> param = new HashMap<>();
+
         param.put("typeId", typeId);
         param.put("startDate", startDate);
         param.put("endDate", endDate);
+
+        //如果关键词是空的
         if (!StringUtils.isEmpty(keyWord)) {
+            //%%
             param.put("keyWord", "%" + keyWord.trim() + "%");
         }
+        //文章的status为1,就是没有放入回收站
         param.put("status", "1");
 
         //pageHelper分页插件
         //只要在查询之前调用,传入当前页码,以及每一页显示多少条
         //这个分页插件具体怎么用的不清楚,反正这么写能实现功能
         PageHelper.startPage(pageNum, pageSize);
+        //调用业务层的list方法,来获取文章集合
         List<Article> list = articleService.list(param);
+        //这个依旧是分页插件的固定语句,不用多想
         PageInfo<Article> pageInfo = new PageInfo<>(list);
 
 
@@ -78,7 +85,7 @@ public class ArticleController extends BaseController {
         map.put("startDate", startDate);
         map.put("endDate", endDate);
         map.put("keyWord", keyWord);
-        //查询所有类型信息并把类型信息放在Model中,
+        //查询所有类型信息并把类型信息放在ModelMap(map)中,
         List<TypeInfo> typeInfoList = typeInfoService.list();
         map.put("typeList", typeInfoList);
         map.put("pageInfo", pageInfo);
@@ -107,6 +114,7 @@ public class ArticleController extends BaseController {
         if (!StringUtils.isEmpty(keyWord)) {
             param.put("keyWord", "%" + keyWord.trim() + "%");
         }
+        //状态为1时,未被回收,状态0时,回收
         param.put("status", "0");
 
         //pageHelper分页插件
@@ -274,4 +282,18 @@ public class ArticleController extends BaseController {
 
         return new JsonResult<>();
     }
+
+    /**
+     * 关于我页面
+     *
+     * @param map ModelMap
+     * @return view
+     */
+    @RequestMapping("about.action")
+    public String about(ModelMap map) {
+
+        return "about";
+    }
+
+
 }

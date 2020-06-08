@@ -6,8 +6,17 @@ package com.moses.blog.entity;
  * @author Moses
  */
 public class UserInfo {
+    /**
+     * 用户的唯一id,(没啥用,我加着好玩的)
+     */
     private Integer id;
+    /**
+     * 用户名
+     */
     private String username;
+    /**
+     * 密码
+     */
     private String password;
 
     public UserInfo() {

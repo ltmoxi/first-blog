@@ -8,21 +8,52 @@ import java.util.Date;
  * @author Moses
  */
 public class Article {
+    /**
+     * 文章的唯一标识
+     */
     private Integer id;
+    /**
+     * 标题
+     */
     private String title;
+    /**
+     * 内容 正文
+     */
     private String content;
+    /**
+     * 总结,概要
+     */
     private String summary;
+    /**
+     * 封面
+     */
     private String cover;
+    /**
+     * 浏览量
+     */
     private Integer viewCount;
+    /**
+     * 上传的时间
+     */
     private Date updateTime;
+    /**
+     * 文章状态,如果是1,那么就是正常,如果是0,那么就是放在了回收站
+     */
     private Integer status;
+    /**
+     * 对应type_info表中的t_id
+     */
     private Integer typeId;
-
+    /**
+     * type_info表中的类型名字
+     */
     private String name;
 
     public Article() {
 
     }
+
+
 
     @Override
     public String toString() {
