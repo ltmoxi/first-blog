@@ -54,11 +54,8 @@ public class ArticleMapperTests {
     @Test
     public void list() {
         Map<String, Object> param = new HashMap<>();
-        param.put("typeId", null);
-        param.put("startDate", "");
-        param.put("endDate", "");
-        param.put("keyWord", "");
-        param.put("status", "1");
+        param.put("keyWord", "a");
+
 
 
         List<Article> typeInfo = articleMapper.list(param);
@@ -83,9 +80,9 @@ public class ArticleMapperTests {
 
     @Test
     public void recycle() {
-        Integer[] idArr = new Integer[]{4, 5};
+        Integer id = 4;
         Integer typeId = 0;
-        articleMapper.updateStatus(idArr,typeId);
+        articleMapper.updateStatus(id,typeId);
 
     }
 

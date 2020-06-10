@@ -19,7 +19,7 @@ import java.util.List;
  * @author Moses
  */
 @Controller
-@RequestMapping("admin")
+@RequestMapping("admin/type_info")
 public class TypeController extends BaseController {
 
     @Autowired
@@ -28,45 +28,41 @@ public class TypeController extends BaseController {
     /**
      * 查询所有文章分类
      */
-    @RequestMapping("type_info/list.action")
+    @RequestMapping("/list_type.action")
     public String list(ModelMap map) {
         List<TypeInfo> list = typeInfoService.list();
-        map.put("list", list);
-        return "admin/type_info/list_type";
+        map.put("typeInfo", list);
+        return "web/admin/type_info/list_type";
     }
 
+
     /**
-     * 批量保存/修改类型信息
+     * 保存/修改类型信息
      *
-     * @param idArr   类型id数组
-     * @param sortArr 类型顺序数组
-     * @param nameArr 类型名称数组
+     * @param id   类型id
+     * @param sort 类型顺序
+     * @param name 类型名称
      * @return json数据
      */
     @ResponseBody
-    @RequestMapping("type_info/save.json")
-    public JsonResult<Void> saveListHandler(@RequestParam("idArr") String[] idArr,
-                                            @RequestParam("sortArr") String[] sortArr,
-                                            @RequestParam("nameArr") String[] nameArr) {
-
-        //idArr   类型id数组
-        //sortArr 类型排序数组
-        //nameArr 类型名称数组
-        typeInfoService.save(idArr, sortArr, nameArr);
-
+    @RequestMapping("/save.json")
+    public JsonResult<Void> saveHandler(@RequestParam("id") Integer id,
+                                        @RequestParam("sort") Integer sort,
+                                        @RequestParam("name") String name) {
+        typeInfoService.save(id, sort, name);
         return new JsonResult<>();
     }
 
     /**
-     * 批量删除文章分类
+     * 删除文章分类
      *
-     * @param idArr 文章分类id数组
+     * @param id 文章分类id数组
      * @return json数据
      */
-    @RequestMapping("type_info/delete.json")
+    @RequestMapping("/delete.json")
     @ResponseBody
-    public JsonResult<Void> delete(@RequestParam("idArr") Integer[] idArr) {
-        typeInfoService.delete(idArr);
+    public JsonResult<Void> delete(@RequestParam("id") Integer id) {
+        typeInfoService.delete(id);
         return new JsonResult<>();
     }
 }

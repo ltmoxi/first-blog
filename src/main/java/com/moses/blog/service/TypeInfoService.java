@@ -6,7 +6,6 @@ import com.moses.blog.mapper.ArticleMapper;
 import com.moses.blog.mapper.TypeInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -35,25 +34,19 @@ public class TypeInfoService {
     /**
      * 批量更新/插入文章分类
      *
-     * @param idArr   id数组
-     * @param sortArr 排序优先级数组
-     * @param nameArr 名称数组
+     * @param id   id
+     * @param sort 排序优先级
+     * @param name 名称
      */
-    public void save(String[] idArr, String[] sortArr, String[] nameArr) {
-        //idArr  {2  ,9             }
-        //nameArr{c--,java ,python }
-        //sortArr{1  ,7    ,5       }
+    public void save(Integer id, Integer sort, String name) {
 
-        //如果不等与0,那么代表网页上有需要修改的类型数据,需要进行判断,到底是插入,还是修改
-        for (int i = 0; i < sortArr.length; i++) {
-            //判断这个数据是需要更新还是插入
-            if (StringUtils.isEmpty(idArr[i])) {
-                //插入
-                typeInfoMapper.insert(Integer.parseInt(sortArr[i]), nameArr[i]);
-            } else {
-                //更新
-                typeInfoMapper.update(Integer.parseInt(idArr[i]), Integer.parseInt(sortArr[i]), nameArr[i]);
-            }
+        //判断这个数据是需要更新还是插入
+        if (id == null || id < 1) {
+            //插入
+            typeInfoMapper.insert(sort, name);
+        } else {
+            //更新
+            typeInfoMapper.update(id, sort, name);
         }
 
     }
@@ -61,19 +54,19 @@ public class TypeInfoService {
     /**
      * 批量删除文章分类
      *
-     * @param idArr 主键数组
+     * @param id 主键
      */
-    public void delete(Integer[] idArr) {
-        //先统计一下这个分类id数组中所存的id,
-        int count = articleMapper.countByTypeIdArr(idArr, 1);
+    public void delete(Integer id) {
+        //先统计一下是否有文章使用此类型id,
+        int count = articleMapper.countByTypeIdArr(id, 1);
         if (count > 0) {
             //如果有,禁止删除
             throw new ServiceException("存在已经被使用的分类,无法删除!");
         }
-        //批量删除这个idArr中包含的id对应的已经被放入回收站的文章数据
-        articleMapper.batchDeleteByTypeIdArr(idArr);
+        //删除这个idArr中包含的id对应的已经被放入回收站的文章数据
+        articleMapper.DeleteByTypeIdArr(id);
         //再删除这个类型数组中包含的类型
-        typeInfoMapper.delete(idArr);
+        typeInfoMapper.delete(id);
     }
 
 

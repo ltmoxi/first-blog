@@ -10,7 +10,7 @@
         <result column="u_password" property="password"/>
     </resultMap>
 
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="u_id">
         insert into user_info(u_username, u_password)
         values (#{username}, #{password});
     </insert>

@@ -23,6 +23,10 @@ public class JsonResult<T> {
 
     }
 
+    public JsonResult(T data) {
+        this.data = data;
+    }
+
     public JsonResult(Integer code, String message) {
         this.code = code;
         this.message = message;

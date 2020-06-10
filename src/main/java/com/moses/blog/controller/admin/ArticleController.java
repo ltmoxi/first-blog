@@ -29,10 +29,11 @@ import java.util.Map;
 
 /**
  * 负责处理文章详细数据的管理
+ *
  * @author Moses
  */
 @Controller
-@RequestMapping("admin")
+@RequestMapping("admin/article_info")
 public class ArticleController extends BaseController {
 
     @Autowired
@@ -47,21 +48,14 @@ public class ArticleController extends BaseController {
      * @param map map
      * @return 视图
      */
-    @RequestMapping("article_info/list_normal.action")
+    @RequestMapping("/list_normal.action")
     public String listNormal(ModelMap map,
-                             @RequestParam(required = false, value = "typeId") Integer typeId,
-                             @RequestParam(required = false, value = "startDate") String startDate,
-                             @RequestParam(required = false, value = "endDate") String endDate,
                              @RequestParam(required = false, value = "keyWord") String keyWord,
                              @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                              @RequestParam(value = "pageSize", defaultValue = "3") int pageSize) {
         //把所有条件都放在一个map里,以便查询
 
         Map<String, Object> param = new HashMap<>();
-
-        param.put("typeId", typeId);
-        param.put("startDate", startDate);
-        param.put("endDate", endDate);
 
         //如果关键词是空的
         if (!StringUtils.isEmpty(keyWord)) {
@@ -80,16 +74,12 @@ public class ArticleController extends BaseController {
         //这个依旧是分页插件的固定语句,不用多想
         PageInfo<Article> pageInfo = new PageInfo<>(list);
 
-
-        map.put("typeId", typeId);
-        map.put("startDate", startDate);
-        map.put("endDate", endDate);
         map.put("keyWord", keyWord);
         //查询所有类型信息并把类型信息放在ModelMap(map)中,
         List<TypeInfo> typeInfoList = typeInfoService.list();
         map.put("typeList", typeInfoList);
         map.put("pageInfo", pageInfo);
-        return "admin/article_info/list_normal";
+        return "web/admin/article_info/list_normal";
     }
 
     /**
@@ -98,19 +88,13 @@ public class ArticleController extends BaseController {
      * @param map map
      * @return 视图
      */
-    @RequestMapping("article_info/list_recycle.action")
+    @RequestMapping("/list_recycle.action")
     public String listRecycle(ModelMap map,
-                              @RequestParam(required = false, value = "typeId") Integer typeId,
-                              @RequestParam(required = false, value = "startDate") String startDate,
-                              @RequestParam(required = false, value = "endDate") String endDate,
                               @RequestParam(required = false, value = "keyWord") String keyWord,
                               @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                               @RequestParam(value = "pageSize", defaultValue = "3") int pageSize) {
 
         Map<String, Object> param = new HashMap<>();
-        param.put("typeId", typeId);
-        param.put("startDate", startDate);
-        param.put("endDate", endDate);
         if (!StringUtils.isEmpty(keyWord)) {
             param.put("keyWord", "%" + keyWord.trim() + "%");
         }
@@ -124,15 +108,12 @@ public class ArticleController extends BaseController {
         PageInfo<Article> pageInfo = new PageInfo<>(list);
 
 
-        map.put("typeId", typeId);
-        map.put("startDate", startDate);
-        map.put("endDate", endDate);
         map.put("keyWord", keyWord);
         //查询所有类型信息并把类型信息放在Model中,
         List<TypeInfo> typeInfoList = typeInfoService.list();
         map.put("typeList", typeInfoList);
         map.put("pageInfo", pageInfo);
-        return "admin/article_info/list_recycle";
+        return "web/admin/article_info/list_recycle";
     }
 
     /**
@@ -142,26 +123,19 @@ public class ArticleController extends BaseController {
      * @param map map
      * @return 视图
      */
-    @RequestMapping("article_info/edit.action")
+    @RequestMapping("/edit.action")
     public String edit(@RequestParam(required = false, value = "id") Integer id,
                        ModelMap map) {
         //查询单个文章的信息
-        if (id != null && id != -1) {
-            Article article = articleService.findArticleById(id);
-            map.put("article", article);
-            map.put("id", id);
-        } else {
-            /*
-                不知道为什么edit.jsp页面41行如果获取到的是null值,则会默认为1,所以需要把新增文章的id设置为-1,
-                为什么设置为-1可以看一下那一行
-             */
-            map.put("id", -1);
-        }
+        Article article = articleService.findArticleById(id);
+        //查询所有分类
+        List<TypeInfo> typeList = typeInfoService.list();
 
-        //查询所有文章分类
-        map.put("typeList", typeInfoService.list());
 
-        return "admin/article_info/edit";
+        map.put("article", article);
+        map.put("id", id);
+        map.put("typeList", typeList);
+        return "web/admin/article_info/edit";
     }
 
     /**
@@ -172,7 +146,7 @@ public class ArticleController extends BaseController {
      * @return 处理信息
      * @throws IOException IO异常
      */
-    @RequestMapping("article_info/upload.json")
+    @RequestMapping("/upload.json")
     @ResponseBody
     public JsonResult<String> upload(@RequestParam("file") CommonsMultipartFile file,
                                      HttpServletRequest request) throws IOException {
@@ -215,13 +189,13 @@ public class ArticleController extends BaseController {
      * @param article 文章数据
      * @return json格式的数据
      */
-    @RequestMapping("article_info/save.json")
+    @RequestMapping("/save.json")
     @ResponseBody
     public JsonResult<Void> save(Article article) {
 
         //注意这里判定了article.getId()是否为-1,原因在上面
-        if (article.getId() != null && article.getId() != -1) {
-            //如果文章id不等于0,且不等于-1,那么就是修改文章,需要更新日期信息
+        if (article.getId() != null) {
+            //如果文章id不是null,那么就是修改文章,需要更新日期信息
             article.setUpdateTime(new Date());
             articleService.update(article);
         } else {
@@ -234,65 +208,34 @@ public class ArticleController extends BaseController {
         return new JsonResult<>();
     }
 
-
     /**
-     * 批量更改文章的类型
+     * 更新文章状态(放入回收站或移出回收站)
      *
-     * @param idArr  文章id数组
-     * @param typeId 类型id
-     * @return json返回值
-     */
-    @RequestMapping("article_info/move.json")
-    @ResponseBody
-    public JsonResult<Void> move(@RequestParam("idArr") Integer[] idArr,
-                                 @RequestParam("typeId") Integer typeId) {
-        articleService.updateTypeId(idArr, typeId);
-
-        return new JsonResult<>();
-    }
-
-    /**
-     * 批量更新文章状态
-     *
-     * @param idArr  文章id数组
+     * @param id     文章id
      * @param status 状态的值
      * @return json返回值
      */
-    @RequestMapping("article_info/update_status.json")
+    @RequestMapping("/update_status.json")
     @ResponseBody
-    public JsonResult<Void> updateStatus(@RequestParam("idArr") Integer[] idArr, @RequestParam("status") Integer status) {
-
-        articleService.updateStatus(idArr, status);
-
+    public JsonResult<Void> updateStatus(@RequestParam("id") Integer id, @RequestParam("status") Integer status) {
+        articleService.updateStatus(id, status);
         return new JsonResult<>();
     }
 
 
     /**
-     * 批量删除文章
+     * 删除文章
      *
-     * @param idArr 文章id数组
+     * @param id 文章id数组
      * @return 返回json数据
      */
-    @RequestMapping("article_info/delete.json")
+    @RequestMapping("/delete.json")
     @ResponseBody
-    public JsonResult<Void> delete(@Param("idArr") Integer[] idArr) {
+    public JsonResult<Void> delete(@Param("id") Integer id) {
 
-        articleService.delete(idArr);
+        articleService.delete(id);
 
         return new JsonResult<>();
-    }
-
-    /**
-     * 关于我页面
-     *
-     * @param map ModelMap
-     * @return view
-     */
-    @RequestMapping("about.action")
-    public String about(ModelMap map) {
-
-        return "about";
     }
 
 

@@ -64,11 +64,20 @@ public class ArticleService {
         articleMapper.updateTypeId(idArr, typeId);
     }
 
-    public void updateStatus(Integer[] idArr, Integer status) {
-        articleMapper.updateStatus(idArr, status);
+    /**
+     * 更新文章状态(放入回收站或者还原)
+     * @param id id
+     * @param status 状态
+     */
+    public void updateStatus(Integer id, Integer status) {
+        articleMapper.updateStatus(id, status);
     }
 
-    public void delete(Integer[] idArr) {
-        articleMapper.delete(idArr);
+    /**
+     * 删除文章
+     * @param id 文章id
+     */
+    public void delete(Integer id) {
+        articleMapper.delete(id);
     }
 }

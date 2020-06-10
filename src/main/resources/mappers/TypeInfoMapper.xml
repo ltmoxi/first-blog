@@ -11,16 +11,10 @@
     </resultMap>
 
     <insert id="insert">
-        insert into type_info
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="sort!=null">t_sort,</if>
-            <if test="name!=null and name!=''">t_name,</if>
-        </trim>
-        <trim prefix="values(" suffix=")" suffixOverrides=",">
-            <if test="sort!=null">#{sort},</if>
-            <if test="name!=null and name!=''">#{name},</if>
-        </trim>
+        insert into type_info(t_sort, t_name)
+        values (#{sort}, #{name})
     </insert>
+
 
     <update id="update">
         update type_info
@@ -34,10 +28,7 @@
     <delete id="delete">
         delete
         from type_info
-        where t_id in
-        <foreach collection="idArr" index="index" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+        where t_id = #{id}
     </delete>
 
     <select id="getTypeInfoList" resultMap="TypeInfoMap">

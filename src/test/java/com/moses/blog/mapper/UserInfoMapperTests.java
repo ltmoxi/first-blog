@@ -21,7 +21,7 @@ public class UserInfoMapperTests {
     @Test
     public void reg() {
         //Integer insert(String username, String password);
-        String username = "litian";
+        String username = "litiansdf";
         String password = "lidi";
         //row代表着受影响的行数,如果不为1,那么就代表插入错误
         Integer row = userInfoMapper.insert(username, password);
@@ -31,8 +31,7 @@ public class UserInfoMapperTests {
 
     @Test
     public void checkUsername() {
-        Integer number = userInfoMapper.checkUsername("litian");
-        System.out.println(number);
+
     }
 
     @Before

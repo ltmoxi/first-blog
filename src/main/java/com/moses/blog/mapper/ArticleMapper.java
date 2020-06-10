@@ -56,31 +56,31 @@ public interface ArticleMapper {
     /**
      * 批量更新文章状态
      *
-     * @param idArr  文章id数组
+     * @param id  文章id
      * @param status 状态码 0为回收状态,1为正常状态
      */
-    void updateStatus(@Param("idArr") Integer[] idArr, @Param("status") Integer status);
+    void updateStatus(@Param("id") Integer id, @Param("status") Integer status);
 
     /**
      * 批量删除文章
      *
-     * @param idArr 文章id数组
+     * @param id 文章id数组
      */
-    void delete(@Param("idArr") Integer[] idArr);
+    void delete(@Param("id") Integer id);
 
     /**
      * 根据文章分类,查询文章的数量
      *
-     * @param typeIdArr 分类id数组
+     * @param typeId 分类id数组
      * @param status    文章状态
      * @return 该类型id数组下所有的文章数量
      */
-    int countByTypeIdArr(@Param("typeIdArr") Integer[] typeIdArr, @Param("status") int status);
+    int countByTypeIdArr(@Param("typeId") Integer typeId, @Param("status") int status);
 
     /**
-     * 根据文章分离批量删除回收站的文章
+     * 根据文章分离删除回收站的文章
      *
-     * @param typeIdArr 类型id数组
+     * @param typeId 类型id数组
      */
-    void batchDeleteByTypeIdArr(@Param("typeIdArr") Integer[] typeIdArr);
+    void DeleteByTypeIdArr(@Param("typeId") Integer typeId);
 }

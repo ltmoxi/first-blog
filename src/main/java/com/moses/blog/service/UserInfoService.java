@@ -36,7 +36,7 @@ public class UserInfoService {
      * @param username 用户名
      * @param password 密码
      */
-    public void reg(String username, String password) {
+    public Integer reg(String username, String password) {
         //用户名不能为空
         if (username == null) {
             throw new ServiceException("用户名不能为空!");
@@ -57,5 +57,7 @@ public class UserInfoService {
         if (row != 1) {
             throw new ServiceException("数据库异常!");
         }
+
+        return row;
     }
 }

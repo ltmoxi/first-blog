@@ -70,28 +70,19 @@
     <update id="updateStatus">
         UPDATE article
         Set a_status=#{status}
-        WHERE a_id IN
-        <foreach collection="idArr" index="index" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+        WHERE a_id = #{id}
     </update>
 
     <delete id="delete">
         delete
         from article
-        where a_id in
-        <foreach collection="idArr" index="index" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+        where a_id = #{id}
     </delete>
 
-    <delete id="batchDeleteByTypeIdArr">
+    <delete id="DeleteByTypeIdArr">
         delete
         from article
-        where a_id in
-        <foreach collection="typeIdArr" index="index" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+        where a_id = #{typeId};
     </delete>
 
     <select id="list" resultMap="ArticleInfoMap">
@@ -109,10 +100,6 @@
         WHERE
         ai.a_type_id = ti.t_id
         <if test="status!=null">AND ai.a_status=#{status}</if>
-        <if test="typeId!=null">AND ai.a_type_id=#{typeId}</if>
-        <if test="startDate!=null and startDate!=''">
-            AND ai.a_update_time BETWEEN #{startDate} AND #{endDate}
-        </if>
         <if test="keyWord!=null and keyWord!=''">AND ai.a_title LIKE #{keyWord}</if>
         ORDER BY ai.a_update_time DESC
     </select>
@@ -137,10 +124,8 @@
     <select id="countByTypeIdArr" resultType="java.lang.Integer">
         select count(*)
         from article
-        where a_status = #{status} and a_type_id in
-        <foreach collection="typeIdArr" index="index" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+        where a_status = #{status}
+          and a_type_id = #{typeId}
     </select>
 
 

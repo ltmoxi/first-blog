@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
  * @author Moses
  */
 @Controller
-@RequestMapping("admin")
+@RequestMapping("/admin/user_info")
 public class UserInfoController extends BaseController {
 
     @Autowired
@@ -29,9 +29,9 @@ public class UserInfoController extends BaseController {
      *
      * @return view
      */
-    @RequestMapping("user_info/index.action")
+    @RequestMapping("/index.action")
     public String index() {
-        return "admin/index";
+        return "web/admin/index";
     }
 
     /**
@@ -40,22 +40,20 @@ public class UserInfoController extends BaseController {
      * @param session session
      * @return view
      */
-    @RequestMapping("user_info/login_out.action")
+    @RequestMapping("/login_out.action")
     public String loginOut(HttpSession session) {
         //session保存的登陆状态信息,登陆状态信息一般用session来确认,使用invalidate方法可以删除这个session
         session.invalidate();
-        return "admin/login";
+        return "web/admin/login";
     }
 
 
     /**
      * 跳转到登陆页面
-     *
-     * @return view
      */
-    @RequestMapping("user_info/login.action")
+    @RequestMapping("/login.action")
     public String login() {
-        return "admin/login";
+        return "web/admin/login";
     }
 
     /**
@@ -64,10 +62,9 @@ public class UserInfoController extends BaseController {
      * @param username 用户名
      * @param password 密码
      * @param session  session信息,用来保存用户id与用户名
-     * @return json数据
      */
     @ResponseBody
-    @RequestMapping("user_info/login.json")
+    @RequestMapping("/login.json")
     public JsonResult<Void> loginHandler(@RequestParam("username") String username,
                                          @RequestParam("password") String password,
                                          HttpSession session) {
@@ -77,11 +74,18 @@ public class UserInfoController extends BaseController {
         return new JsonResult<>();
     }
 
+    /**
+     * 处理注册信息
+     * @param username 用户名
+     * @param password 密码
+     * @return
+     */
     @ResponseBody
-    @RequestMapping("user_info/reg.json")
-    public JsonResult<Void> regHandler(@RequestParam(required = false,value="username") String username,
-                                       @RequestParam("password") String password) {
-         userInfoService.reg(username, password);
+    @RequestMapping("/reg.json")
+    public JsonResult<Void> regHandler(@RequestParam("username") String username,
+                                       @RequestParam("password") String password,
+                                       HttpSession session) {
+        Integer id =  userInfoService.reg(username, password);
         return new JsonResult<>();
     }
 }

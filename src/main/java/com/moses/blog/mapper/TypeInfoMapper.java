@@ -34,11 +34,11 @@ public interface TypeInfoMapper {
     void update(@Param("id") Integer id, @Param("sort") Integer sort, @Param("name") String name);
 
     /**
-     * 批量删除指定id的类型
+     * 删除指定id的类型
      *
-     * @param idArr id数组
+     * @param id id数组
      */
-    void delete(@Param("idArr") Integer[] idArr);
+    void delete(@Param("id") Integer id);
 
     /**
      * 通过id获取类型的名称
