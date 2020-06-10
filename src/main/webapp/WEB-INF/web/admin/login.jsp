@@ -76,7 +76,7 @@
             </label>
         </div>
         <button id="login-btn" class="btn btn-lg btn-primary btn-block" type="button">登录</button>
-        <button  type="button" class="btn btn-link"><a href="../reg.html">新用户？创建账户</a></button>
+        <button  type="button" class="btn btn-link"><a href="${pageContext.request.contextPath}/admin/user_info/reg.action">新用户？创建账户</a></button>
     </form>
 </div>
 </body>

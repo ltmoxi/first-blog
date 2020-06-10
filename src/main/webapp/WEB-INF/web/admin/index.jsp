@@ -29,7 +29,7 @@
                     欢迎您，<%=session.getAttribute("username")%>
                 </li>
                 <li>
-                    <a href="${pageContext.request.contextPath}/admin/user_info/login_out.action.json">退出</a>
+                    <a href="${pageContext.request.contextPath}/admin/user_info/login_out.action">退出</a>
                 </li>
                 <li class="active">
                     <a href="${pageContext.request.contextPath}/">首页</a>

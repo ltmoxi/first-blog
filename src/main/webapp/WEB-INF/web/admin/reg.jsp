@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>注册</title>
     <link rel="stylesheet" type="text/css" href="../../../static/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
     <script type="text/javascript" src="../../../static/js/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="../../../static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
