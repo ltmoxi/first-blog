@@ -126,7 +126,7 @@ public class PortalController extends BaseController {
 
 
     /**
-     * 根据文章id查询单个文章的数据
+     * 根据文章id查询单个文章的数据,返回文章详情页面
      *
      * @param map ModelMap
      * @param id  文章数据
@@ -138,7 +138,7 @@ public class PortalController extends BaseController {
 
         Article articleInfo = articleService.findArticleById(id);
         if (articleInfo == null) {
-            return "page/error/404";
+            return "web/error/404";
         }
         map.put("article", articleInfo);
 

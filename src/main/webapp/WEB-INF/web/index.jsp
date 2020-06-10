@@ -29,65 +29,7 @@
             overflow: hidden
         }
     </style>
-    <script>
-        $(document).ready(function () {
-            showArticle();
 
-        });
-
-        //显示文章信息
-        function showArticle() {
-            $("#content").empty();
-            let url = "${pageContext.request.contextPath}/portal/type.json?pageNum=${pageNum}";
-            $.ajax({
-                "url": url,
-                "type": "GET",
-                "dataType": "json",
-                "success": function (result) {
-                    console.log(result);
-                    if (result.code === 2000) {
-                        let articleList = result.data.list;
-                        //添加每个文章
-                        for (let i = 0; i < articleList.length; i++) {
-                            let template = ' <div class="well well-lg add-shadow row clearfix">\n' +
-                                '                    <div class="col-md-5 column content-style">\n' +
-                                '                        <img src="@{cover}" alt="" width="326">\n' +
-                                '                    </div>\n' +
-                                '                    <div class="col-md-7 column">\n' +
-                                '                        <h2><a href="${pageContext.request.contextPath}/portal/article.action?id=@{id}" style=" color: #000000;">@{title}</a></h2>\n' +
-                                '                        <p>@{summary}<p>\n' +
-                                '                        <p><a class="btn" href="${pageContext.request.contextPath}/portal/article.action?id=@{id}">阅读更多 »</a></p>\n' +
-                                '                    </div>\n' +
-                                '                </div>';
-                            let html = template.replace('@{cover}', articleList[i].cover)
-                                .replace('@{cover}', articleList[i].cover)
-                                .replace('@{title}', articleList[i].title)
-                                .replace('@{summary}', articleList[i].summary)
-                                .replace('@{id}', articleList[i].id)
-                                .replace('@{id}', articleList[i].id)
-                            $("#content").append(html);
-                        }
-                        //添加分页
-                        let pageInfo = result.data;
-                        let template = '        <ul class="pager">\n' +
-                            '                    <li><a href="${pageContext.request.contextPath}/portal/index.action?pageNum=1">首页</a></li>\n' +
-                            '                    <li><a href="${pageContext.request.contextPath}/portal/index.action?pageNum=@{prePageNum}">上一页</a></li>\n'+
-                            '                    <li><a href="${pageContext.request.contextPath}/portal/index.action?pageNum=@{pageNum}">@{pageNum}</a></li>\n' +
-                            '                    <li><a href="${pageContext.request.contextPath}/portal/index.action?pageNum=@{afterPageNum}">下一页</a></li>\n' +
-                            '                    <li><a href="${pageContext.request.contextPath}/portal/index.action?pageNum=99">尾页</a></li>\n' +
-                            '                </ul>';
-                        let html = template.replace('@{prePageNum}', pageInfo.pageNum-1)
-                            .replace('@{pageNum}', pageInfo.pageNum)
-                            .replace('@{pageNum}', pageInfo.pageNum)
-                            .replace('@{afterPageNum}', pageInfo.pageNum+1)
-                        $("#content").append(html);
-                    } else {
-                        console.log("获取数据失败" + result.message)
-                    }
-                }
-            });
-        }
-    </script>
 </head>
 
 <body>
@@ -126,8 +68,58 @@
         </div>
 
         <div class="col-md-8 column">
-            <div>
-            </div>
+            <script>
+                $("#content").empty();
+                let url = "${pageContext.request.contextPath}/portal/type.json?pageNum=${pageNum}";
+                $.ajax({
+                    "url": url,
+                    "type": "GET",
+                    "dataType": "json",
+                    "success": function (result) {
+                        console.log(result);
+                        if (result.code === 2000) {
+                            let articleList = result.data.list;
+                            //添加每个文章
+                            for (let i = 0; i < articleList.length; i++) {
+                                let template = ' <div class="well well-lg add-shadow row clearfix">\n' +
+                                    '                    <div class="col-md-5 column content-style">\n' +
+                                    '                        <img src="@{cover}" alt="" width="326">\n' +
+                                    '                    </div>\n' +
+                                    '                    <div class="col-md-7 column">\n' +
+                                    '                        <h2><a href="${pageContext.request.contextPath}/portal/article.action?id=@{id}" style=" color: #000000;">@{title}</a></h2>\n' +
+                                    '                        <p>@{summary}<p>\n' +
+                                    '                        <p><a class="btn" href="${pageContext.request.contextPath}/portal/article.action?id=@{id}">阅读更多 »</a></p>\n' +
+                                    '                    </div>\n' +
+                                    '                </div>';
+                                let html = template.replace('@{cover}', articleList[i].cover)
+                                    .replace('@{cover}', articleList[i].cover)
+                                    .replace('@{title}', articleList[i].title)
+                                    .replace('@{summary}', articleList[i].summary)
+                                    .replace('@{id}', articleList[i].id)
+                                    .replace('@{id}', articleList[i].id)
+                                $("#content").append(html);
+                            }
+                            //添加分页
+                            let pageInfo = result.data;
+                            let template = '        <ul class="pager">\n' +
+                                '                    <li><a href="${pageContext.request.contextPath}/portal/index.action?pageNum=1">首页</a></li>\n' +
+                                '                    <li><a href="${pageContext.request.contextPath}/portal/index.action?pageNum=@{prePageNum}">上一页</a></li>\n'+
+                                '                    <li><a href="${pageContext.request.contextPath}/portal/index.action?pageNum=@{pageNum}">@{pageNum}</a></li>\n' +
+                                '                    <li><a href="${pageContext.request.contextPath}/portal/index.action?pageNum=@{afterPageNum}">下一页</a></li>\n' +
+                                '                    <li><a href="${pageContext.request.contextPath}/portal/index.action?pageNum=99">尾页</a></li>\n' +
+                                '                </ul>';
+                            let html = template.replace('@{prePageNum}', pageInfo.pageNum-1)
+                                .replace('@{pageNum}', pageInfo.pageNum)
+                                .replace('@{pageNum}', pageInfo.pageNum)
+                                .replace('@{afterPageNum}', pageInfo.pageNum+1)
+                            $("#content").append(html);
+                        } else {
+                            console.log("获取数据失败" + result.message)
+                        }
+                    }
+                });
+
+            </script>
         </div>
         <div class="col-md-2 column" style="height: 60px;text-align: center;line-height: 60px;">
             <a href="${pageContext.request.contextPath}/portal/group.action" style=" color: white;text-decoration: none;">个人博客后台系统小组</a>

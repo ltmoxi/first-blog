@@ -25,6 +25,7 @@
             <!--            白名单-->
             <mvc:exclude-mapping path="/admin/user_info/login.action"/>
             <mvc:exclude-mapping path="/admin/user_info/login.json"/>
+            <mvc:exclude-mapping path="/admin/user_info/reg.action"/>
             <mvc:exclude-mapping path="/admin/user_info/reg.json"/>
             <!--            拦截器-->
             <bean class="com.moses.blog.interceptor.LoginInterceptor"/>

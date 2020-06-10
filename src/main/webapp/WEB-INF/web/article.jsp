@@ -33,7 +33,7 @@
 	<body>
 		<!--导航栏开始-->
 		<div class="container">
-			<c:import url="header.jsp"></c:import>
+			<c:import url="header.jsp"/>
 		</div>
 		<!--导航栏结束-->
 
@@ -52,8 +52,8 @@
 					<div class="col-md-12 column " style="padding-top: 20px">
 						<nav class="nav nav-tabs">
 							<ul class="breadcrumb">
-								<li><a href="#">Home</a></li>
-								<li><a href="#">2013</a></li>
+								<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+								<li><a href="${pageContext.request.contextPath}/portal/type.action?typeId=${article.typeId}">${article.name}</a></li>
 								<li class="active">${article.title}</li>
 							</ul>
 						</nav>
@@ -84,7 +84,6 @@
 						</div>
 						<div class="col-md-2 column" style="height: 60px;text-align: center;line-height: 60px;">
 							<a href="${pageContext.request.contextPath}/portal/group.action" style=" color: white;text-decoration: none;">个人博客后台系统小组</a>
-
 						</div>
 					</div>
 					<!--底部结束-->

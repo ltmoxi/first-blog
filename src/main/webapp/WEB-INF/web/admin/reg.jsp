@@ -62,6 +62,21 @@
 <body>
 <div class="container">
 
+    <div class="col-md-12 column">
+        <div class="modal fade" id="element" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="alert alert-success alert-dismissable">
+                            注册成功! 正在跳转页面.....
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <form id="login-form" class="form-signin">
         <h2 style="text-align: center;">注册</h2>
         <div style="height: 50px;">
@@ -76,6 +91,9 @@
 </body>
 <script>
 
+
+
+
     $("#reg-btn").click(function () {
 
         //获取表单参数
@@ -89,7 +107,12 @@
             success: function (result) {
                 console.log(result);
                 if (result.code === 2000) {
-                    window.location.href = "${pageContext.request.contextPath}/admin/user_info/login.action";
+                    $('#element').modal('show');
+                    // 建议延迟加载
+                    setTimeout(function() {
+                        window.location.href = "${pageContext.request.contextPath}/admin/user_info/login.action";
+                    }, 2000);
+
                 } else {
                     alert("注册失败:" + result.message)
                 }

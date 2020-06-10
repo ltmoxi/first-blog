@@ -44,7 +44,7 @@ public class UserInfoController extends BaseController {
     public String loginOut(HttpSession session) {
         //session保存的登陆状态信息,登陆状态信息一般用session来确认,使用invalidate方法可以删除这个session
         session.invalidate();
-        return "web/admin/reg";
+        return "web/admin/login";
     }
 
 
@@ -76,24 +76,21 @@ public class UserInfoController extends BaseController {
 
     /**
      * 处理注册信息
+     *
      * @param username 用户名
      * @param password 密码
      */
     @ResponseBody
     @RequestMapping("/reg.json")
     public JsonResult<Void> regHandler(@RequestParam("username") String username,
-                                       @RequestParam("password") String password,
-                                       HttpSession session) {
-        Integer id =  userInfoService.reg(username, password);
+                                       @RequestParam("password") String password) {
+        userInfoService.reg(username, password);
         return new JsonResult<>();
     }
 
 
     @RequestMapping("/reg.action")
-    public String reg(@RequestParam("username") String username,
-                                       @RequestParam("password") String password,
-                                       HttpSession session) {
-        Integer id =  userInfoService.reg(username, password);
+    public String reg() {
         return "web/admin/reg";
     }
 }
