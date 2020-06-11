@@ -32,7 +32,7 @@ public class TypeInfoService {
     }
 
     /**
-     * 批量更新/插入文章分类
+     * 更新/插入文章分类
      *
      * @param id   id
      * @param sort 排序优先级

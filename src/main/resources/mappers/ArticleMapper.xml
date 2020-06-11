@@ -98,12 +98,14 @@
         FROM
         article ai,type_info ti
         WHERE
-        ai.a_type_id = ti.t_id
+        ai.a_type_id = ti.t_id AND ai.a_status=#{status}
+        <if test="typeId!=null">AND ai.a_type_id=#{typeId}</if>
         <if test="status!=null">AND ai.a_status=#{status}</if>
         <if test="keyWord!=null and keyWord!=''">AND ai.a_title LIKE #{keyWord}</if>
         ORDER BY ai.a_update_time DESC
     </select>
 
+    <!--    resultMap,指的是,返回的数据以什么形式或者说封装成什么类型来返回-->
     <select id="findArticleById" resultMap="ArticleInfoMap">
         SELECT ai.a_id,
                ai.a_type_id,

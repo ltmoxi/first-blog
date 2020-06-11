@@ -1,5 +1,6 @@
 package com.moses.blog.service;
 
+import com.moses.blog.exception.ServiceException;
 import com.moses.blog.mapper.ArticleMapper;
 import com.moses.blog.entity.Article;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ArticleService {
     TypeInfoService typeInfoService;
 
     /**
-     * 列出所有文章
+     * 列出满足param里存放的条件的所有文章
      *
      * @return 所有文章集合
      */
@@ -34,6 +35,9 @@ public class ArticleService {
      */
     public void insert(Article article) {
         Integer row = articleMapper.insert(article);
+        if (row != 1) {
+            throw new ServiceException("插入数据时出现异常!");
+        }
     }
 
     /**
@@ -53,15 +57,6 @@ public class ArticleService {
      */
     public void update(Article article) {
         articleMapper.update(article);
-    }
-
-    /**
-     * 批量更改文章的类型
-     * @param idArr 文章id数组
-     * @param typeId 类型id
-     */
-    public void updateTypeId(Integer[] idArr, Integer typeId) {
-        articleMapper.updateTypeId(idArr, typeId);
     }
 
     /**

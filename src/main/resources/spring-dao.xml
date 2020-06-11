@@ -34,9 +34,9 @@
         <property name="basePackage" value="com.moses.blog.mapper"/>
     </bean>
 
-    <!--    开启事务注解驱动-->
+    <!--    开启事务注解驱动 (暂时没用上)-->
     <tx:annotation-driven/>
-    <!--    事务管理-->
+    <!--    事务管理(暂时没用上)-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="basicDataSource"/>
     </bean>

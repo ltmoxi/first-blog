@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>文章列表</title>
+    <title>回收站</title>
     <link rel="stylesheet" type="text/css" href="../../../../static/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="../../../../static/font-awesome-4.7.0/css/font-awesome.min.css"/>
     <script type="text/javascript" src="../../../../static/js/jquery-3.5.1.min.js"></script>
@@ -66,7 +66,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${pageInfo.list}" var="entity" varStatus="status">
+                                <c:forEach items="${pageInfo}" var="entity" varStatus="status">
                                     <tr data-id="${entity.id}">
                                         <td>${entity.id}</td>
                                         <td>${entity.name}</td>

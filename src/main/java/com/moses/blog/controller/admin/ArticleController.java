@@ -89,30 +89,15 @@ public class ArticleController extends BaseController {
      * @return 视图
      */
     @RequestMapping("/list_recycle.action")
-    public String listRecycle(ModelMap map,
-                              @RequestParam(required = false, value = "keyWord") String keyWord,
-                              @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                              @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
-
+    public String listRecycle(ModelMap map) {
+        //创建一个map,用来存放查找的条件
         Map<String, Object> param = new HashMap<>();
-        if (!StringUtils.isEmpty(keyWord)) {
-            param.put("keyWord", "%" + keyWord.trim() + "%");
-        }
-        //状态为1时,未被回收,状态0时,回收
+        //这里条件只有一个,就是status为0,也就是文章处于被放入回收站的状态
         param.put("status", "0");
-
-        //pageHelper分页插件
-        //只要在查询之前调用,传入当前页码,以及每一页显示多少条
-        PageHelper.startPage(pageNum, pageSize);
+        //调用articleService的list方法,并传入查找的条件,获取返回数据
         List<Article> list = articleService.list(param);
-        PageInfo<Article> pageInfo = new PageInfo<>(list);
-
-
-        map.put("keyWord", keyWord);
-        //查询所有类型信息并把类型信息放在Model中,
-        List<TypeInfo> typeInfoList = typeInfoService.list();
-        map.put("typeList", typeInfoList);
-        map.put("pageInfo", pageInfo);
+        //把获取到的返回数据封装到map里,用来在jsp上展示相应数据
+        map.put("pageInfo", list);
         return "web/admin/article_info/list_recycle";
     }
 
@@ -130,7 +115,6 @@ public class ArticleController extends BaseController {
         Article article = articleService.findArticleById(id);
         //查询所有分类
         List<TypeInfo> typeList = typeInfoService.list();
-
 
         map.put("article", article);
         map.put("id", id);
@@ -192,6 +176,9 @@ public class ArticleController extends BaseController {
     @RequestMapping("/save.json")
     @ResponseBody
     public JsonResult<Void> save(Article article) {
+
+        //JsonResult<>()没有包含任何数据,只包含了一个状态码等于2000的json格式的数据
+        //处理删除的操作,处理保存的操作,只需要知道处理的结果是不是正常即可
 
         //注意这里判定了article.getId()是否为-1,原因在上面
         if (article.getId() != null) {

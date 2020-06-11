@@ -95,7 +95,6 @@ public class PortalController extends BaseController {
     /**
      * 返回未被回收的所有文章(如果填写了分类id参数,那么就会根据分类id参数来查找)
      *
-     * @param map      map
      * @param typeId   类型id
      * @param pageNum  分页插件的参数,第几页
      * @param pageSize 分页插件的参数,一页有几个数据
@@ -103,10 +102,9 @@ public class PortalController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("type.json")
-    public JsonResult<PageInfo<Article>> gettype(ModelMap map,
-                                                 @RequestParam(required = false, value = "typeId") String typeId,
+    public JsonResult<PageInfo<Article>> gettype(@RequestParam(required = false, value = "typeId") String typeId,
                                                  @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                                 @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
+                                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         System.out.println(pageNum);
 
         Map<String, Object> param = new HashMap<>();

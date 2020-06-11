@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>文章列表</title>
+    <title>文章编辑</title>
     <link rel="stylesheet" type="text/css" href="../../../../static/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="../../../../static/font-awesome-4.7.0/css/font-awesome.min.css"/>
     <script type="text/javascript" src="../../../../static/js/jquery-3.5.1.min.js"></script>
@@ -55,7 +55,7 @@
         <div class="col-md-9 column" style="padding-top: 16px;">
             <div class="row clearfix">
                 <div class="col-md-12 column">
-                    <input type="hidden" id="id" name="id" value="${article.cover}"/>
+                    <input type="hidden" id="id" name="id" value="${article.id}"/>
                     <div class="form-group">
                         <label for="title">标题</label><input type="text" class="form-control" id="title"
                                                             value="${article.title}"/>
@@ -165,12 +165,9 @@
                     setTimeout(function () {
                         // 跳转页面
                         window.location.href = "${pageContext.request.contextPath}/admin/article_info/list_normal.action";
-                    }, 20);
+                    }, 1000);
                 } else {
-                    javaex.optTip({
-                        content: "失败!",
-                        type: "error"
-                    });
+                    alert("失败!");
                 }
             }
         })
