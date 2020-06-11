@@ -44,7 +44,7 @@ public class PortalController extends BaseController {
     @RequestMapping("index.action")
     public String listNormal(ModelMap map,
                              @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                             @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
+                             @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
 
         Map<String, Object> param = new HashMap<>();
         param.put("status", "1");

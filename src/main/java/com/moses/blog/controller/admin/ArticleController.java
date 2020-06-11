@@ -52,7 +52,7 @@ public class ArticleController extends BaseController {
     public String listNormal(ModelMap map,
                              @RequestParam(required = false, value = "keyWord") String keyWord,
                              @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                             @RequestParam(value = "pageSize", defaultValue = "3") int pageSize) {
+                             @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
         //把所有条件都放在一个map里,以便查询
 
         Map<String, Object> param = new HashMap<>();
@@ -92,7 +92,7 @@ public class ArticleController extends BaseController {
     public String listRecycle(ModelMap map,
                               @RequestParam(required = false, value = "keyWord") String keyWord,
                               @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                              @RequestParam(value = "pageSize", defaultValue = "3") int pageSize) {
+                              @RequestParam(value = "pageSize", defaultValue = "100") int pageSize) {
 
         Map<String, Object> param = new HashMap<>();
         if (!StringUtils.isEmpty(keyWord)) {

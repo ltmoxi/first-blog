@@ -57,7 +57,8 @@
                 <div class="col-md-12 column">
                     <input type="hidden" id="id" name="id" value="${article.cover}"/>
                     <div class="form-group">
-                        <label for="title">标题</label><input type="text" class="form-control" id="title" value="${article.title}" />
+                        <label for="title">标题</label><input type="text" class="form-control" id="title"
+                                                            value="${article.title}"/>
                     </div>
                     <div class="form-group">
                         <!--下拉选择框-->
@@ -136,7 +137,6 @@
     });
 
 
-
     var E = window.wangEditor
     var editor = new E('#editor')
     editor.create()
@@ -148,33 +148,33 @@
         let summary = editor.txt.text();
         let cover = $("#cover").val();
         let typeId = $("#type_id").val();
-        let data = "id=" + id + "&content=" + content + "&cover=" + cover+"&typeId="+typeId+"&summary="+summary+"&title="+title;
+        let data = "id=" + id + "&content=" + content + "&cover=" + cover + "&typeId=" + typeId + "&summary=" + summary + "&title=" + title;
         console.log(data);
 
-        $("#save").click(function () {
-            console.log($("#form").serialize())
-            $.ajax({
-                url: "save.json",
-                type: "POST",
-                dataType: "json",
-                data: data,
-                success: function (result) {
-                    if (result.code === 2000) {
-                        alert("成功!")
-                        // 建议延迟加载
-                        setTimeout(function () {
-                            // 跳转页面
-                            window.location.href = "${pageContext.request.contextPath}/admin/article_info/list_normal.action";
-                        }, 2000);
-                    } else {
-                        javaex.optTip({
-                            content: "失败!",
-                            type: "error"
-                        });
-                    }
+
+        console.log($("#form").serialize())
+        $.ajax({
+            url: "save.json",
+            type: "POST",
+            dataType: "json",
+            data: data,
+            success: function (result) {
+                if (result.code === 2000) {
+                    alert("成功!");
+                    // 建议延迟加载
+                    setTimeout(function () {
+                        // 跳转页面
+                        window.location.href = "${pageContext.request.contextPath}/admin/article_info/list_normal.action";
+                    }, 20);
+                } else {
+                    javaex.optTip({
+                        content: "失败!",
+                        type: "error"
+                    });
                 }
-            })
+            }
         })
+
 
     }, false);
 

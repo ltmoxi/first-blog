@@ -60,6 +60,7 @@
                                 .replace('@{title}', articleList[i].title)
                                 .replace('@{summary}', articleList[i].summary)
                                 .replace('@{id}', articleList[i].id)
+                                .replace('@{id}', articleList[i].id)
                             $("#content").append(html);
                         }
                         //添加分页
